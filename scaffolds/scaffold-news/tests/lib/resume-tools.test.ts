@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { ToolContext, ToolResult } from "@/lib/ai/tools/types";
 
 // Mock the database
-vi.mock("@scaffold-saas/database/client", () => ({
+vi.mock("@scaffold-news/database/client", () => ({
   db: {
     query: {
       resumes: {

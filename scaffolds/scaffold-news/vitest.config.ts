@@ -17,9 +17,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./apps/web/src"),
-      "@scaffold-saas/types": path.resolve(__dirname, "./packages/types/src"),
-      "@scaffold-saas/utils": path.resolve(__dirname, "./packages/utils/src"),
-      "@scaffold-saas/database": path.resolve(__dirname, "./packages/database/src"),
+      "@scaffold-news/types": path.resolve(__dirname, "./packages/types/src"),
+      "@scaffold-news/utils": path.resolve(__dirname, "./packages/utils/src"),
+      "@scaffold-news/database": path.resolve(__dirname, "./packages/database/src"),
     },
   },
 });
