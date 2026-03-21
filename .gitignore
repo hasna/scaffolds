@@ -1,0 +1,10 @@
+node_modules/
+dist/
+bin/
+bun.lock
+.env
+.env.local
+*.db
+.next/
+.microservices/
+.scaffolds/

@@ -1,0 +1,100 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: scaffold-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-scaffold}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-scaffold_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-scaffold_saas}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-scaffold}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: scaffold-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Web Application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: scaffold-web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-4020}:4020"
+    environment:
+      PORT: 4020
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-scaffold}:${POSTGRES_PASSWORD:-scaffold_dev}@postgres:5432/${POSTGRES_DB:-scaffold_saas}
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:4020}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # Background Workers
+  workers:
+    build:
+      context: .
+      dockerfile: Dockerfile.workers
+    container_name: scaffold-workers
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-scaffold}:${POSTGRES_PASSWORD:-scaffold_dev}@postgres:5432/${POSTGRES_DB:-scaffold_saas}
+      REDIS_URL: redis://redis:6379
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      NEXT_PUBLIC_APP_URL: ${NEXTAUTH_URL:-http://localhost:4020}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # Database migrations (runs once)
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: scaffold-migrate
+    command: ["bun", "run", "db:migrate"]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-scaffold}:${POSTGRES_PASSWORD:-scaffold_dev}@postgres:5432/${POSTGRES_DB:-scaffold_saas}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  postgres_data:
+  redis_data:

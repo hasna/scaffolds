@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Run lint-staged
+bun run lint-staged
+
+# Run type-check
+echo "Running type-check..."
+bun run typecheck

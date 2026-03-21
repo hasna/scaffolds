@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# Database
+data/
+*.db
+*.sqlite
+
+# Uploads
+uploads/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Bun
+bun.lockb
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Local scratch
+.tmp/

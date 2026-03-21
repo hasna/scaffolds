@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebSearch"
+    ],
+    "ask": [
+      "Write",
+      "Edit",
+      "Bash",
+      "WebFetch",
+      "Task"
+    ],
+    "deny": []
+  },
+  "model": "claude-sonnet-4-5",
+  "customInstructions": "Use the agent scaffold patterns for complex tasks. Leverage the multi-layered agent architecture for task decomposition and delegation."
+}

@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bunx @hasnaxyz/hook-checktasks@latest run",
+            "timeout": 120
+          },
+          {
+            "type": "command",
+            "command": "bunx @hasnaxyz/hook-checkactions@latest run",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  },
+  "checkTasksConfig": {
+    "taskListId": "scaffold-review-dev",
+    "keywords": ["dev"],
+    "enabled": true
+  },
+  "checkActionsConfig": {
+    "taskListId": "scaffold-review-dev",
+    "keywords": ["dev"],
+    "debug": true,
+    "enabled": true
+  }
+}

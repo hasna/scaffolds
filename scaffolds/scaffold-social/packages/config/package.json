@@ -1,0 +1,9 @@
+{
+  "name": "@scaffold-social/config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./typescript": "./typescript.json",
+    "./eslint": "./eslint.config.js"
+  }
+}

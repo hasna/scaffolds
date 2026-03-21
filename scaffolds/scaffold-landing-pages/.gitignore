@@ -1,0 +1,52 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+.next
+dist
+out
+build
+
+# Turbo
+.turbo
+
+# Testing
+coverage
+*.lcov
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDEs
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Playwright
+test-results
+playwright-report
+playwright/.cache
+
+# Misc
+*.pem
+*.log
+.vercel

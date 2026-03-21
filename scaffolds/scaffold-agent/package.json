@@ -1,0 +1,59 @@
+{
+  "name": "scaffold-agent",
+  "version": "0.0.1",
+  "description": "Multi-layered agentic system scaffold using Claude Agent SDK",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "loop": "bun run src/loop.ts",
+    "cli": "bun run src/cli.ts",
+    "test": "bun test",
+    "test:smoke": "bun run src/tests/smoke.test.ts",
+    "test:live": "bun run src/tests/live.test.ts",
+    "test:all": "bun test && bun run src/tests/live.test.ts",
+    "test:coverage": "bun test --coverage",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "clean": "rm -rf dist dist-tests",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "claude",
+    "agent",
+    "sdk",
+    "ai",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "packageManager": "bun@1.1.38",
+  "dependencies": {
+    "@anthropic-ai/claude-code": "^1.0.18",
+    "@anthropic-ai/sdk": "^0.37.0",
+    "dotenv": "^16.4.5",
+    "glob": "^11.0.0",
+    "gray-matter": "^4.0.3",
+    "minimatch": "^10.0.1",
+    "openai": "^4.0.0",
+    "ws": "^8.18.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/ws": "^8.5.13",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

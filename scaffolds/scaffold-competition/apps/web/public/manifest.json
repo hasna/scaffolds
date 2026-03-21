@@ -1,0 +1,9 @@
+{
+  "name": "123Resume.co - AI Resume Builder",
+  "short_name": "123Resume",
+  "description": "AI-first conversational resume builder",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}

@@ -1,0 +1,45 @@
+# syntax=docker/dockerfile:1
+FROM oven/bun:1.1.38-alpine AS base
+WORKDIR /app
+
+# Install dependencies
+FROM base AS deps
+COPY package.json bun.lock ./
+COPY packages/config/package.json ./packages/config/
+COPY packages/types/package.json ./packages/types/
+COPY packages/utils/package.json ./packages/utils/
+COPY packages/database/package.json ./packages/database/
+COPY apps/workers/package.json ./apps/workers/
+RUN bun install --frozen-lockfile --production
+
+# Build
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build shared packages
+RUN bun run --filter @scaffold-review/types build
+RUN bun run --filter @scaffold-review/utils build
+RUN bun run --filter @scaffold-review/database build
+
+# Build workers
+RUN bun run --filter @scaffold-review/workers build
+
+# Production image
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+RUN addgroup --system --gid 1001 workers
+RUN adduser --system --uid 1001 worker
+
+# Copy built files
+COPY --from=builder --chown=worker:workers /app/packages ./packages
+COPY --from=builder --chown=worker:workers /app/apps/workers/dist ./apps/workers/dist
+COPY --from=builder --chown=worker:workers /app/node_modules ./node_modules
+
+USER worker
+
+CMD ["node", "apps/workers/dist/index.js"]

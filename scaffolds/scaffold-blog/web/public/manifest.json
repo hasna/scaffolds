@@ -1,0 +1,17 @@
+{
+  "name": "Engine Blog",
+  "short_name": "Blog",
+  "description": "A modern blog powered by AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#e94560",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

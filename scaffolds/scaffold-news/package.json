@@ -1,0 +1,77 @@
+{
+  "name": "scaffold-news",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "turbo dev --filter=@scaffold-news/web",
+    "dev:workers": "turbo dev --filter=@scaffold-news/workers",
+    "build": "turbo build",
+    "build:packages": "turbo build --filter=@scaffold-news/types --filter=@scaffold-news/utils --filter=@scaffold-news/database",
+    "start": "turbo start",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "typecheck": "turbo typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "db:generate": "turbo db:generate",
+    "db:migrate": "turbo db:migrate",
+    "db:push": "turbo db:push",
+    "db:studio": "turbo db:studio",
+    "db:seed": "turbo db:seed",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up -d",
+    "docker:dev:down": "docker-compose -f docker-compose.dev.yml down",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "docker:logs": "docker-compose logs -f",
+    "clean": "turbo clean && rm -rf node_modules",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@next/eslint-plugin-next": "^16.1.1",
+    "@playwright/test": "^1.49.1",
+    "@types/bcryptjs": "^3.0.0",
+    "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "@typescript-eslint/parser": "^8.50.1",
+    "@vitest/coverage-v8": "^2.1.8",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.50.1",
+    "vitest": "^2.1.8"
+  },
+  "packageManager": "bun@1.1.38",
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "bunx eslint --fix",
+      "bunx prettier --write"
+    ],
+    "*.{js,jsx,json,md}": [
+      "bunx prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-code": "^2.0.76",
+    "@auth/drizzle-adapter": "^1.11.1",
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "drizzle-orm": "0.38.4"
+  }
+}

@@ -1,0 +1,110 @@
+# Caddyfile for 27 blog domains
+# Auto-HTTPS enabled
+
+survivalpatriots.com, www.survivalpatriots.com {
+    reverse_proxy localhost:8031
+}
+
+healthhubmedia.com, www.healthhubmedia.com {
+    reverse_proxy localhost:8032
+}
+
+holisticguardian.com, www.holisticguardian.com {
+    reverse_proxy localhost:8033
+}
+
+easyhealthalliance.com, www.easyhealthalliance.com {
+    reverse_proxy localhost:8034
+}
+
+dailyhealthinformer.com, www.dailyhealthinformer.com {
+    reverse_proxy localhost:8035
+}
+
+conservativetips.com, www.conservativetips.com {
+    reverse_proxy localhost:8036
+}
+
+conservativeremedies.com, www.conservativeremedies.com {
+    reverse_proxy localhost:8037
+}
+
+conservativehealthtoday.com, www.conservativehealthtoday.com {
+    reverse_proxy localhost:8038
+}
+
+conservativehealthnews.com, www.conservativehealthnews.com {
+    reverse_proxy localhost:8039
+}
+
+conservativehealthhacks.com, www.conservativehealthhacks.com {
+    reverse_proxy localhost:8040
+}
+
+alternativehomeremedies.com, www.alternativehomeremedies.com {
+    reverse_proxy localhost:8041
+}
+
+conservativehacks.com, www.conservativehacks.com {
+    reverse_proxy localhost:8042
+}
+
+healin4all.com, www.healin4all.com {
+    reverse_proxy localhost:8043
+}
+
+holisticreports.com, www.holisticreports.com {
+    reverse_proxy localhost:8044
+}
+
+myalternativenews.com, www.myalternativenews.com {
+    reverse_proxy localhost:8045
+}
+
+myonlinehealthguide.com, www.myonlinehealthguide.com {
+    reverse_proxy localhost:8046
+}
+
+newhealthalliance.com, www.newhealthalliance.com {
+    reverse_proxy localhost:8047
+}
+
+patriotlibertyalliance.com, www.patriotlibertyalliance.com {
+    reverse_proxy localhost:8048
+}
+
+todayhealthhacks.com, www.todayhealthhacks.com {
+    reverse_proxy localhost:8049
+}
+
+todayhealingnews.com, www.todayhealingnews.com {
+    reverse_proxy localhost:8050
+}
+
+stonecoldsurvivor.com, www.stonecoldsurvivor.com {
+    reverse_proxy localhost:8051
+}
+
+smarthealin.com, www.smarthealin.com {
+    reverse_proxy localhost:8052
+}
+
+regularhealthtips.com, www.regularhealthtips.com {
+    reverse_proxy localhost:8053
+}
+
+preppinglines.com, www.preppinglines.com {
+    reverse_proxy localhost:8054
+}
+
+completehealin.com, www.completehealin.com {
+    reverse_proxy localhost:8055
+}
+
+preppingplans.com, www.preppingplans.com {
+    reverse_proxy localhost:8056
+}
+
+preppingtacts.com, www.preppingtacts.com {
+    reverse_proxy localhost:8057
+}
