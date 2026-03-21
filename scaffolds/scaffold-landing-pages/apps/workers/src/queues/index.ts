@@ -1,7 +1,8 @@
 import { Queue } from "bullmq";
+import type { ConnectionOptions } from "bullmq";
 import { createRedisConnection } from "../lib/redis";
 
-const connection = createRedisConnection();
+const connection = createRedisConnection() as unknown as ConnectionOptions;
 
 export const emailQueue = new Queue("email", { connection });
 export const webhookQueue = new Queue("webhook", { connection });

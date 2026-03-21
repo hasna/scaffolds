@@ -1,4 +1,5 @@
 import { Worker } from "bullmq";
+import type { ConnectionOptions } from "bullmq";
 import { createRedisConnection } from "./lib/redis";
 import { logger } from "./lib/logger";
 import { processEmailJob, type EmailJobData } from "./jobs/email";
@@ -8,7 +9,7 @@ import { processAIJob, type AIJobData } from "./jobs/ai";
 import { processCleanupJob, type CleanupJobData } from "./jobs/cleanup";
 import { cleanupQueue } from "./queues";
 
-const connection = createRedisConnection();
+const connection = createRedisConnection() as unknown as ConnectionOptions;
 
 const workers: Worker[] = [];
 
