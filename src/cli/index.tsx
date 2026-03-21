@@ -25,6 +25,8 @@ import {
   unregisterCodex,
   unregisterGemini,
 } from "../lib/mcp-register.js";
+import { runCreateWizard } from "./wizard.js";
+import { runSetup } from "../lib/setup.js";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -464,7 +466,7 @@ program
 
 type McpAgent = "claude" | "codex" | "gemini" | "all";
 
-const MCP_AGENTS: McpAgent[] = ["claude", "codex", "gemini"];
+const MCP_AGENTS: ("claude" | "codex" | "gemini")[] = ["claude", "codex", "gemini"];
 
 function validateAgent(value: string, flag: string): McpAgent {
   const valid = ["claude", "codex", "gemini", "all"];
@@ -482,7 +484,8 @@ async function runForAgents(
   fn: (a: "claude" | "codex" | "gemini") => Promise<void>,
   verb: string
 ): Promise<void> {
-  const targets = agent === "all" ? MCP_AGENTS : [agent];
+  const targets: ("claude" | "codex" | "gemini")[] =
+    agent === "all" ? MCP_AGENTS : [agent as "claude" | "codex" | "gemini"];
   for (const target of targets) {
     process.stdout.write(chalk.dim(`  ${verb} ${target}… `));
     try {
@@ -543,5 +546,75 @@ program
       await runForAgents(agent, (a) => unregisterFns[a](), "Uninstalling from");
     }
   });
+
+program
+  .command("create [name]")
+  .alias("new")
+  .description("Create a new app from a scaffold (interactive wizard)")
+  .option("--dir <path>", "Target directory")
+  .option("--app-name <name>", "App name")
+  .option("--skip-env", "Skip env var setup")
+  .option("--skip-install", "Skip bun install")
+  .option("--skip-db", "Skip db:push + db:seed")
+  .option("--yes", "Accept all defaults, non-interactive")
+  .action(
+    async (
+      name: string | undefined,
+      opts: {
+        dir?: string;
+        appName?: string;
+        skipEnv?: boolean;
+        skipInstall?: boolean;
+        skipDb?: boolean;
+        yes?: boolean;
+      }
+    ) => {
+      if (opts.yes) {
+        // Non-interactive: run with defaults
+        const scaffoldId = name ?? "scaffold-saas";
+        const appName =
+          opts.appName ??
+          scaffoldId.replace(/^scaffold-/, "") + "-app";
+        const targetDir =
+          opts.dir ?? process.cwd() + "/" + appName;
+
+        console.log(
+          chalk.bold("Creating ") +
+            chalk.cyan(scaffoldId) +
+            chalk.bold(" → ") +
+            chalk.dim(targetDir)
+        );
+
+        try {
+          const result = await runSetup({
+            scaffoldId,
+            targetDir,
+            appName,
+            skipEnvWizard: true,
+            skipInstall: opts.skipInstall ?? false,
+            skipDbSetup: opts.skipDb ?? false,
+            skipAgentSetup: false,
+            startDevServer: false,
+          });
+
+          console.log(chalk.green("✓ Done"));
+          console.log(chalk.dim(`  Directory: ${result.targetDir}`));
+          console.log(chalk.dim(`  Duration:  ${(result.duration / 1000).toFixed(1)}s`));
+          console.log();
+          console.log(chalk.bold("Next steps:"));
+          console.log(chalk.dim(`  cd ${result.targetDir}`));
+          console.log(chalk.dim("  bun dev"));
+        } catch (err: unknown) {
+          console.error(
+            chalk.red("✗ Create failed: ") +
+              (err instanceof Error ? err.message : String(err))
+          );
+          process.exit(1);
+        }
+      } else {
+        await runCreateWizard(name);
+      }
+    }
+  );
 
 program.parse(process.argv);

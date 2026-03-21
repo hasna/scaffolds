@@ -18,6 +18,7 @@ import {
   getInstalledScaffolds,
   type InstallOptions,
 } from "../lib/installer.js";
+import { runSetup } from "../lib/setup.js";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -61,6 +62,15 @@ const InstallScaffoldSchema = z.object({
 
 const ListInstalledSchema = z.object({
   dir: z.string().optional(),
+});
+
+const CreateScaffoldSchema = z.object({
+  id: z.string().describe("Scaffold id e.g. saas, social, blog"),
+  target_dir: z.string().describe("Absolute path for the new app"),
+  app_name: z.string().describe("App name (used in .env, package.json, etc)"),
+  description: z.string().optional(),
+  skip_db: z.boolean().optional().default(false),
+  agents: z.array(z.enum(["claude", "codex", "gemini"])).optional(),
 });
 
 // ─── Server ──────────────────────────────────────────────────────────────────
@@ -179,6 +189,42 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 "Directory to check (defaults to current working directory)",
             },
           },
+        },
+      },
+      {
+        name: "create_scaffold",
+        description:
+          "Set up a new app from a scaffold. Copies files, writes .env, runs bun install, and optionally sets up the database and registers AI agents.",
+        inputSchema: {
+          type: "object" as const,
+          properties: {
+            id: {
+              type: "string",
+              description: 'Scaffold id e.g. saas, social, blog',
+            },
+            target_dir: {
+              type: "string",
+              description: "Absolute path for the new app",
+            },
+            app_name: {
+              type: "string",
+              description: "App name (used in .env, package.json, etc)",
+            },
+            description: {
+              type: "string",
+              description: "Short description of the app",
+            },
+            skip_db: {
+              type: "boolean",
+              description: "Skip db:push + db:seed (default false)",
+            },
+            agents: {
+              type: "array",
+              items: { type: "string", enum: ["claude", "codex", "gemini"] },
+              description: "Which AI agents to register the MCP server with",
+            },
+          },
+          required: ["id", "target_dir", "app_name"],
         },
       },
     ],
@@ -327,6 +373,29 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 null,
                 2
               ),
+            },
+          ],
+        };
+      }
+
+      case "create_scaffold": {
+        const params = CreateScaffoldSchema.parse(args);
+        const result = await runSetup({
+          scaffoldId: params.id,
+          targetDir: params.target_dir,
+          appName: params.app_name,
+          description: params.description,
+          skipEnvWizard: true, // MCP can't do interactive prompts
+          skipInstall: false,
+          skipDbSetup: params.skip_db,
+          agents: params.agents,
+        });
+
+        return {
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify(result, null, 2),
             },
           ],
         };

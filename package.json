@@ -1,6 +1,6 @@
 {
   "name": "@hasna/scaffolds",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "App scaffolds for AI agents — saas, agent, blog, news, social, competition, review, landing pages",
   "type": "module",
   "bin": {
@@ -26,7 +26,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "bun build ./src/cli/index.tsx --outdir ./bin --target bun --external ink --external react --external chalk --external conf && bun build ./src/mcp/index.ts --outfile ./bin/mcp.js --target bun && bun build ./src/index.ts --outdir ./dist --target bun",
+    "build": "bun build ./src/cli/index.tsx --outdir ./bin --target bun --external ink --external react --external chalk --external conf && bun build ./src/mcp/index.ts --outfile ./bin/mcp.js --target bun --external react-devtools-core && bun build ./src/index.ts --outdir ./dist --target bun --external react-devtools-core",
     "dev": "bun run ./src/cli/index.tsx",
     "typecheck": "tsc --noEmit",
     "test": "bun test --path-ignore-patterns 'scaffolds/**' src/lib/",

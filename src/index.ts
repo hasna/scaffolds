@@ -30,3 +30,7 @@ export {
   getScaffoldReadme,
 } from "./lib/runner.js";
 export type { RunResult } from "./lib/runner.js";
+
+// Setup
+export { runSetup, loadEnvManifest } from "./lib/setup.js";
+export type { SetupOptions, SetupResult } from "./lib/setup.js";

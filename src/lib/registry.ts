@@ -1,5 +1,16 @@
 export type Category = "App" | "AI";
 
+export interface EnvVar {
+  key: string;
+  label: string;
+  description: string;
+  default?: string;
+  required: boolean;
+  secret: boolean;
+  group: string;
+  hint?: string;
+}
+
 export interface ScaffoldMeta {
   id: string;
   name: string;
