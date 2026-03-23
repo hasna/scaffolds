@@ -30,7 +30,8 @@
     "dev": "bun run ./src/cli/index.tsx",
     "typecheck": "tsc --noEmit",
     "test": "bun test --path-ignore-patterns 'scaffolds/**' src/lib/",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build",
+    "postinstall": "mkdir -p $HOME/.hasna/scaffolds 2>/dev/null || true"
   },
   "keywords": [
     "scaffolds",
