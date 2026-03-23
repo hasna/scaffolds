@@ -1,6 +1,6 @@
 {
   "name": "@hasna/scaffolds",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "App scaffolds for AI agents — saas, agent, blog, news, social, competition, review, landing pages",
   "type": "module",
   "bin": {
